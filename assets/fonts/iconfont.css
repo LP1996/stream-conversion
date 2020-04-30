@@ -1,0 +1,29 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1553666681708'); /* IE9 */
+  src: url('iconfont.eot?t=1553666681708#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAOsAAsAAAAAB8QAAANdAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqDCIJuATYCJAMQCwoABCAFhG0HPxvXBsgucJwniippUpJpkcg29Ocn/RgIhpITUGPmHiS5J8CC5fFVKKuIjSCUSEKxrnAVioVpVSbXymRzD8B5coCoGJK9veNsnoAcUUl1KhyRa2UdsPwjAM52+74KOMBppOnGgab9YImN4AfLQoYcCLUggzvWBDK2wf7ncnxXic9vWS5jTRtzUS/AeGtgY02KrEACTMgbxq68iAgdJqDRqDBwb0FZJbCUGaMCwklJbAOWKbMsM18RVEsWZuGWRImX4wvc9D8f/moDS6JKYkzc1+d3gqxf/GNAo/VRZ1ftOp4ebBkJy4BMOFpqPAKF7mVIo9JdYTugKCJjtbVfB5MJsfciLOZfHkESCVVGdDPYijyJH9gUAj8USBSMEuGFLChowDnAe4Z0eJzALDY3t7TjiaW5vePTWr1tNctSNc/NFr8yoCd/el2bbu799tjOglu3Nbo5QO2PX3ume29C92fvoNn9g7bzL8fObOyuvhg9rhbSG+YvvYOxvk7sLqoeil96mzhaWn3cAuCn1WT9IL0b0QOT5tKdgjjg2SJ6+gFB3iKmQy4eoK6yrPr9O07PD94kp+MQEJYN9xaf2v3lP+3m+eD/n+8ceh3sXXOfvd0TRE9sbN/nIMx7/si+Be1A8E8hbG6E+bAAyQqhGdDSCArkw0lbSa/BgV5Yb+c8YN8AcCAY2DvZwcNZEzAwjkqXhH/UoSdpFNKk8PzXfce171pLi0Pav1Jl8P3YPt9cpwDtme+fpbB+FKtlWVY5hipnmWszNVO2nggS0Whq+D1+On0ZQ9zTOpqg6IkhqhmBpJhGMm4ZKppshapiBzRaUri8SRcGCbkBi6YABO3uIGr1FZJ2L5GM+wwVvb5BVXuAoNH+wGXDJrOBZJ3LSBsnnbi9D0sdeh21NNw6iC0nYpemjSU5Pr6aMFmy4eiIqKyvkOgIG2OK3C3GcE4xZXotLgDHEY1Gjw1MryIdPELJuSElMpKWvSiiQ68F1vZgiDYc0Qlr1weTdNDToW51zjr3/nKEqItGG1ZTUqGuRjAyqXMsWoSoFkihUNeq5FqekXUTxeA4CqMYPS2sAOgJjenWwwzl/VSIDlwEZQ+nQYpIVIm2FUbML9Y+4RpoZNyYQwwp5FBRuyjpxH6lpOBtslrRJRMGAAAAAA==') format('woff2'),
+  url('iconfont.woff?t=1553666681708') format('woff'),
+  url('iconfont.ttf?t=1553666681708') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1553666681708#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tingzhi:before {
+  content: "\e604";
+}
+
+.icon-task:before {
+  content: "\e6b6";
+}
+
+.icon-user:before {
+  content: "\e632";
+}
+

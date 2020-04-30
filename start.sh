@@ -1,0 +1,1 @@
+nohup node ./index.js >> node.out &
