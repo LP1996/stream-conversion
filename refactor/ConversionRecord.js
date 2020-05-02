@@ -1,8 +1,9 @@
 const { getCurrentTime } = require('./utils')
 
 module.exports = class ConversionRecord {
-  constructor(id, type, rtspUrl, convertedUrl, resolution) {
-    this.id = id
+  constructor(recordId, liveId, type, rtspUrl, convertedUrl, resolution) {
+    this.recordId = recordId
+    this.liveId = liveId
     this.type = type
     this.rtspUrl = rtspUrl
     this.resolution = resolution

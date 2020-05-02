@@ -32,8 +32,8 @@ class NodeHttpServer {
     this.config = config;
 
     // self code
-    const OwnServer = require(config.externalServerPath);
-    this.externalServer = new OwnServer(context);
+    // const OwnServer = require(config.externalServerPath);
+    // this.externalServer = new OwnServer(context);
 
     let app = Express();
 
@@ -41,7 +41,7 @@ class NodeHttpServer {
     app.use(Express.static(this.mediaroot));
 
     // self code
-    app.use(Express.static(config.hlsRoot));
+    // app.use(Express.static(config.hlsRoot));
 
     app.all(['*.m3u8', '*.ts', '*.mpd', '*.m4s', '*.mp4'], (req, res, next) => {
       res.setHeader('Access-Control-Allow-Origin', this.config.http.allow_origin);
@@ -77,7 +77,9 @@ class NodeHttpServer {
     app.use('/api/server', serverRoute(context));
 
     // self code
-    this.externalServer.setServerRoute(app);
+    // this.externalServer.setServerRoute(app);
+
+    this.config.brigeEmitter.emit('serverInit', app, context)
 
     this.httpServer = Http.createServer(app);
 
@@ -113,7 +115,7 @@ class NodeHttpServer {
     this.wsServer = new WebSocket.Server({ server: this.httpServer });
 
     // self code
-    this.config.emitter.on('send', (data) => {
+    this.config.brigeEmitter.on('sendData', data => {
       const clients = this.wsServer.clients.values();
       for(let client of clients) {
         if(client.isGetData) {
@@ -124,24 +126,25 @@ class NodeHttpServer {
 
     const this_ = this;
     this.wsServer.on('connection', (ws, req) => {
+      this.config.brigeEmitter.emit('wsConnect', ws, req)
       // self code
-      console.log('connect-----', req);
-      let urlInfo = URL.parse(req.url, true);
-      if (urlInfo.pathname === '/data') {
-        ws.isGetData = true;
-        const data = this.config.pageInfo._getSessionsAsArray();
-        ws.send( JSON.stringify(data) );
-        return;
-      } else if(urlInfo.pathname.indexOf('keepConnect') > -1) {
-        this_.config.emitter.emit('clientConnect', req.connection.remoteAddress);
-        ws.on('message', function(message) {
-          this_.config.emitter.emit('clientMessage', req.connection.remoteAddress, message);
-        });
-        ws.on('close', function() {
-          this_.config.emitter.emit('clientClose', req.connection.remoteAddress);
-        })
-        return;
-      }
+      // console.log('connect-----', req);
+      // let urlInfo = URL.parse(req.url, true);
+      // if (urlInfo.pathname === '/data') {
+      //   ws.isGetData = true;
+      //   const data = this.config.pageInfo._getSessionsAsArray();
+      //   ws.send( JSON.stringify(data) );
+      //   return;
+      // } else if(urlInfo.pathname.indexOf('keepConnect') > -1) {
+      //   this_.config.emitter.emit('clientConnect', req.connection.remoteAddress);
+      //   ws.on('message', function(message) {
+      //     this_.config.emitter.emit('clientMessage', req.connection.remoteAddress, message);
+      //   });
+      //   ws.on('close', function() {
+      //     this_.config.emitter.emit('clientClose', req.connection.remoteAddress);
+      //   })
+      //   return;
+      // }
       req.nmsConnectionType = 'ws';
       this.onConnect(req, ws);
     });

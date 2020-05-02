@@ -1,5 +1,5 @@
 const { spawn } = require('child_process')
-const { error } = require('../Logger')
+const { error, info } = require('../Logger')
 
 // 匹配视频的编码格式
 const videoFormatReg = /Video\:(?:\s*)?(\w*)(?:\s*)\(/
@@ -32,7 +32,7 @@ class FFmpegCaller {
     } catch (err) {
       // 如果转换失败的原因是流不可达，则直接 reject
       if (err === RTSP_NOT_REACHABLE) {
-        throw RTSP_NOT_REACHABLE
+        throw new Error('given rtsp url is not reachable')
       }
 
       // 否则尝试使用编解码重新转，此处不用捕获错误，失败自动 reject 就行
@@ -70,7 +70,7 @@ class FFmpegCaller {
           promiseResolve(p)
           return
         }
-
+        
         ALLOW_FORMATS.includes(format) ? promiseResolve(p) : promiseReject(RTSP_FORMAT_ERROR)
       }
     }
@@ -87,7 +87,11 @@ class FFmpegCaller {
     p.on('exit', onError)
 
     p.stderr.on('data', onData)
-    
+
+    setTimeout(() => {
+      promiseReject(RTSP_NOT_REACHABLE)
+    }, 10000)
+
     return new Promise((resolve, reject) => {
       promiseResolve = resolve
       promiseReject = reject
