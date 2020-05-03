@@ -131,10 +131,10 @@ var tasks = {
               <td colspan="6">暂无数据</td>
             </tr>
             <tr v-for="(info, index) in data" :key="info.id">
-              <td class="break">{{info.origin}}</td>
-              <td class="break">{{info.converted | converted}}</td>
+              <td class="break">{{info.rtspUrl}}</td>
+              <td class="break">{{info.convertedUrl | converted}}</td>
               <td>
-                <span class="log" title="任务日志" @click="viewLog(index, $event)"><i class="iconfont icon-task"></i></span>
+                <!-- <span class="log" title="任务日志" @click="viewLog(index, $event)"><i class="iconfont icon-task"></i></span> -->
                 <span class="stop" title="停止任务" @click="stopTask(info, $event)"><i class="iconfont icon-tingzhi"></i></span>
               </td>
               <td>{{info.resolution | resolution}}</td>
@@ -175,7 +175,7 @@ var tasks = {
     },
     stopTask(info, e) {
       var params = {
-        url: info.origin,
+        url: info.rtspUrl,
         type: info.type === 'flv' ? 'http' : info.type,
         resolution: info.resolution === 'origin' ? '' : info.resolution
       };
@@ -369,7 +369,7 @@ var home = {
     },
     watchNum() {
       return this.data.reduce(function (ac, info) {
-        return ac + info.shareNum;
+        return ac + info.watcherNumber;
       }, 0);
     }
   },
@@ -400,7 +400,7 @@ var home = {
       this.dialog = true;
     },
     establishWs() {
-      const ws = new WebSocket('ws://localhost:8000/data');
+      const ws = new WebSocket('ws://127.0.0.1:8000/data');
       var that = this;
       ws.onopen = function (m) {
         ws.onmessage = function (e) {

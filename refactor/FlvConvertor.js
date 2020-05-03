@@ -60,7 +60,7 @@ class FlvConvertor extends BaseConvertor {
   }
 
   _getFFmpegOutputArgs(liveId, resolution) {
-    const rtmpUrl = 'rtmp://127.0.0.1/live/' + liveId
+    const rtmpUrl = 'rtmp://127.0.0.1:1935/live/' + liveId
     let args = ['-f', 'flv']
 
     args = ORIGIN_RESOLUTION !== 'origin' ? [...args, rtmpUrl] : [...args, '-s', RESOLUTION_SIZE_MAP[resolution], rtmpUrl]

@@ -31,6 +31,8 @@ class FFmpegCaller {
 
       Logger.info('ffmpeg run with copy params success: ' + rtspUrl)
       this.processMap.set(id, p)
+
+      p.stderr.on('data', data => console.log(data.toString()))
     } catch (err) {
       // 如果转换失败的原因是流不可达，则直接 reject
       if (err === RTSP_NOT_REACHABLE) {

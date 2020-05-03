@@ -17,7 +17,7 @@ class BaseConvertor {
   stopAll(rtsp, resolution) {
     const recordId = this._getRecordId(rtsp, resolution)
     this.ffmpegCaller.stop(recordId)
-    this.context.delete(recordId)
+    this.context.removeRecord(recordId)
   }
   
   _getRecordId(rtsp, resolution) {

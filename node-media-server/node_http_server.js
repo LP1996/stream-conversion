@@ -116,10 +116,11 @@ class NodeHttpServer {
 
     // self code
     this.config.brigeEmitter.on('sendData', data => {
+      console.log('sendData: ', data);
       const clients = this.wsServer.clients.values();
       for(let client of clients) {
         if(client.isGetData) {
-          client.send( data );
+          client.send(data);
         }
       }
     });

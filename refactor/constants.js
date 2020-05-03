@@ -11,7 +11,7 @@ const RESOLUTION_SIZE_MAP = {
 const CONVERT_TYPES = ['http', 'ws', 'hls']
 const HLS_ROOT = './hls'
 
-const { PORT = 8000, SERVER_IP = 'localhost' } = process.env
+const { PORT = 8000, SERVER_IP = '127.0.0.1' } = process.env
 
 const brigeEmitter = new EventEmitter()
 

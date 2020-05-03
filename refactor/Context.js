@@ -28,7 +28,7 @@ function hasRecord(recordId) {
 // 向页面发送当前信息
 function emitSendData() {
   const data = getAllRecords()
-  brigeEmitter.emit('sendData', data)
+  brigeEmitter.emit('sendData', JSON.stringify(data))
 }
 
 const context = {

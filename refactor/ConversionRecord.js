@@ -23,4 +23,28 @@ module.exports = class ConversionRecord {
   isNoWatcher() {
     return this.watcherNumber === 0
   }
+
+  toJSON() {
+    const {
+      recordId,
+      liveId,
+      type,
+      convertedUrl,
+      rtspUrl,
+      resolution,
+      watcherNumber,
+      startTime
+    } = this
+    const json = { 
+      recordId, 
+      liveId, 
+      type, 
+      convertedUrl, 
+      rtspUrl, 
+      resolution, 
+      watcherNumber, 
+      startTime 
+    }
+    return json
+  }
 }
