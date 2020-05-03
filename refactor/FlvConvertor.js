@@ -1,6 +1,6 @@
 const BaseConvertor = require('./BaseConvertor')
 const ConversionRecord = require('./ConversionRecord')
-const { info } = require('../Logger')
+const Logger = require('../Logger')
 const { randomUUID } = require('./utils')
 const { RESOLUTION_SIZE_MAP, ORIGIN_RESOLUTION, PORT, SERVER_IP } = require('./constants')
 
@@ -24,6 +24,7 @@ class FlvConvertor extends BaseConvertor {
     
     await this.ffmpegCaller.run(recordId, rtsp, outputArgs)
 
+    Logger.info('flv convert success: ' + recordId + ', liveId: ' + liveId)
     const conversionRecord = this._getConversionRecord(recordId, liveId, rtsp, type, resolution)
     this.context.addRecord(recordId, conversionRecord)
 
@@ -39,13 +40,15 @@ class FlvConvertor extends BaseConvertor {
 
     const conversionRecord = this.context.getRecord(recordId)
     conversionRecord.removeWatcher()
+    Logger.info('flv stop convert: ' + recordId)
 
     if (conversionRecord.isNoWatcher()) {
       this.ffmpegCaller.stop(recordId)
     }
+
   }
 
-  _getConversionRecord(liveId, recordId, rtsp, type, resolution) {
+  _getConversionRecord(recordId, liveId, rtsp, type, resolution) {
     const convertedUrl = {
       http: `http://${SERVER_IP}:${PORT}/live/${liveId}.flv`,
       ws: `ws://${SERVER_IP}:${PORT}/live/${liveId}.flv`

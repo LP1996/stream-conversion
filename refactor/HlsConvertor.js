@@ -27,6 +27,8 @@ class HlsConvertor extends BaseConvertor {
 
     try {
       await this.ffmpegCaller.run(recordId, rtsp, outputArgs)
+
+      Logger.info('hls convert success: ' + recordId + ', liveId: ' + liveId)
       const conversionRecord = this._getConversionRecord(recordId, liveId, rtsp, type, resolution)
       return conversionRecord.convertedUrl
     } catch (err) {
@@ -45,6 +47,8 @@ class HlsConvertor extends BaseConvertor {
 
     const conversionRecord = this.context.getRecord(recordId)
     conversionRecord.removeWatcher()
+
+    Logger.info('hls stop convert: ' + recordId)
 
     if (conversionRecord.isNoWatcher()) {
       this.ffmpegCaller.stop(recordId)

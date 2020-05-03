@@ -1,5 +1,5 @@
 const { spawn } = require('child_process')
-const { error, info } = require('../Logger')
+const Logger = require('../Logger')
 
 // 匹配视频的编码格式
 const videoFormatReg = /Video\:(?:\s*)?(\w*)(?:\s*)\(/
@@ -28,15 +28,20 @@ class FFmpegCaller {
     try {
       // 先尝试使用 copy 去转
       const p = await this._run(getCopyFFmpegArgs(rtspUrl, ffmpegOutputArgs))
+
+      Logger.info('ffmpeg run with copy params success: ' + rtspUrl)
       this.processMap.set(id, p)
     } catch (err) {
       // 如果转换失败的原因是流不可达，则直接 reject
       if (err === RTSP_NOT_REACHABLE) {
+        Logger.info('ffmpeg run error with reason rtsp is not reachable')
         throw new Error('given rtsp url is not reachable')
       }
 
       // 否则尝试使用编解码重新转，此处不用捕获错误，失败自动 reject 就行
       const p = await this._run(getCodecFFmpegArgs(rtspUrl, ffmpegOutputArgs), true)
+
+      Logger.info('ffmpeg run with codec params success: ' + rtspUrl)
       this.processMap.set(id, p)
     }
   }
@@ -48,6 +53,8 @@ class FFmpegCaller {
 
     const p = this.processMap.get(id)
     p && p.stdin.writable && p.stdin.write('q')
+
+    Logger.info('ffmpeg stop: ' + id)
     this.processMap.delete(id)
   }
 
