@@ -123,6 +123,16 @@ class OwnServer {
     }
   }
 
+  // flv 客户端断开连接
+  stopByUUID(uuid) {
+    try {
+      this.convertorMap.http.stopByUUID(uuid)
+    } catch (e) {
+      const convertInfo = `uuid= ${uuid}`
+      Logger.error('[stop convert error] ', convertInfo, '\n', e)
+    }
+  }
+
   handlePageStop(url, resolution, type) {
     try {
       this.convertorMap[type].stopAll(url, resolution)

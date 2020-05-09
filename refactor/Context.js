@@ -16,6 +16,18 @@ function getRecord(recordId) {
   return conversionMap.get(recordId)
 }
 
+function getRecordByUUID(uuid) {
+  const conversionRecords = conversionMap.values()
+  
+  for (let conversionRecord of conversionRecords) {
+    if (conversionRecord.liveId && conversionRecord.liveId === uuid) {
+      return conversionRecord
+    }
+  }
+
+  return null
+}
+
 function getAllRecords() {
   return Array.from(conversionMap.values())
 }
@@ -35,6 +47,7 @@ const context = {
   addRecord,
   removeRecord,
   getRecord,
+  getRecordByUUID,
   getAllRecords,
   hasRecord
 }
