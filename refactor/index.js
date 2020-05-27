@@ -51,6 +51,18 @@ brigeEmitter.on('wsConnect', onWsConnect)
 const nms = new NodeMediaServer(config)
 nms.run()
 
+// flv 断开播放
+nms.on('doneConnect', (id, { streamPath }) => {
+  // rtmp doneConnect 没有 streamPath
+  if (!streamPath) {
+    return
+  }
+
+  const splited = streamPath.split('/')
+  const uuid = splited[splited.length - 1]
+  ownServer.stopByUUID(uuid)
+})
+
 const fileData = fs.readFileSync('../assets/js/page.js');
 const newData = fileData
   .toString()

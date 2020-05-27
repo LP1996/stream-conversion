@@ -14,6 +14,17 @@ class BaseConvertor {
     throw new Error('sub class must implement stop method')
   }
 
+  stopByUUID(uuid) {
+    const conversionRecord = this.context.getRecordByUUID(uuid)
+
+    if (!conversionRecord) {
+      return
+    }
+
+    const [rtsp, , resolution] = conversionRecord.recordId.split(this.SESSION_DELIMITER)
+    this.stop(rtsp, resolution)
+  }
+
   stopAll(rtsp, resolution) {
     const recordId = this._getRecordId(rtsp, resolution)
     this.ffmpegCaller.stop(recordId)
