@@ -138,7 +138,7 @@ var tasks = {
                 <span class="stop" title="停止任务" @click="stopTask(info, $event)"><i class="iconfont icon-tingzhi"></i></span>
               </td>
               <td>{{info.resolution | resolution}}</td>
-              <td>{{info.shareNum}}</td>
+              <td>{{info.watcherNumber}}</td>
               <td>{{info.startTime}}</td>
             </tr>
           </tbody>

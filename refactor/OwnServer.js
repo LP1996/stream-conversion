@@ -55,9 +55,19 @@ class OwnServer {
         const type = req.body.type
         const resolution = req.body.resolution
 
+        // 如果在转换的过程中客户端断开连接，则需要做转换结束后的 stop 处理
+        let reqHasClosed = false
+        req.on('close',function onReqClose(){
+          Logger.info('[client closed] client closed before return')
+          reqHasClosed = true
+          req.off('close', onReqClose)
+        })
+
+        // finally 中做客户端提前 close 的 stop 处理
         this.convert(url, type, resolution)
           .then(playUrl => res.end(Result.of(200, playUrl).toString()))
           .catch(e => res.end(Result.of(400, null, e.message).toString()))
+          .finally(() => reqHasClosed && this.stop(url, resolution, type))
       }
     )
 
