@@ -30,6 +30,7 @@ class HlsConvertor extends BaseConvertor {
 
       Logger.info('hls convert success: ' + recordId + ', liveId: ' + liveId)
       const conversionRecord = this._getConversionRecord(recordId, liveId, rtsp, type, resolution)
+      this.context.addRecord(recordId, conversionRecord)
       return conversionRecord.convertedUrl
     } catch (err) {
       // 转流失败，移除之前创建的文件夹
@@ -49,11 +50,33 @@ class HlsConvertor extends BaseConvertor {
     conversionRecord.removeWatcher()
 
     Logger.info('hls stop convert: ' + recordId)
-
     if (conversionRecord.isNoWatcher()) {
       this.ffmpegCaller.stop(recordId)
-      this._removeCreatedFolder(conversionRecord.liveId)
+      this.context.removeRecord(recordId)
+
+      // 防止这时 ffmpeg 进程还在写文件导致删除失败，稍延后执行
+      setTimeout(() => {
+        this._removeCreatedFolder(conversionRecord.liveId)
+      }, 100)
     }
+  }
+
+  stopAll(rtsp, resolution) {
+    const recordId = this._getRecordId(rtsp, resolution)
+
+    if (!this.context.hasRecord(recordId)) {
+      return
+    }
+
+    const conversionRecord = this.context.getRecord(recordId)
+
+    this.ffmpegCaller.stop(recordId)
+    this.context.removeRecord(recordId)
+
+    // 防止这时 ffmpeg 进程还在写文件导致删除失败，稍延后执行
+    setTimeout(() => {
+      this._removeCreatedFolder(conversionRecord.liveId)
+    }, 100)
   }
 
   _getConversionRecord(recordId, liveId, rtsp, type, resolution) {
@@ -89,19 +112,11 @@ class HlsConvertor extends BaseConvertor {
 
       try {
         files.forEach(filename => {
-          // if (
-          //   filename.endsWith('.ts') ||
-          //   filename.endsWith('.m3u8') ||
-          //   filename.endsWith('.mpd') ||
-          //   filename.endsWith('.m4s')
-          // ) {
-          //   // 删除文件
-          // }
           fs.unlinkSync(playFilePath + '/' + filename)
         })
         fs.rmdirSync(playFilePath)
       } catch (e) {
-        Logger.error('remove hls files or folder fail: ', id)
+        Logger.error('remove hls files or folder fail: ', liveId)
       }
     })
   }

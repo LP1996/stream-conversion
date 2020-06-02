@@ -44,8 +44,8 @@ class FlvConvertor extends BaseConvertor {
 
     if (conversionRecord.isNoWatcher()) {
       this.ffmpegCaller.stop(recordId)
+      this.context.removeRecord(recordId)
     }
-
   }
 
   _getConversionRecord(recordId, liveId, rtsp, type, resolution) {
